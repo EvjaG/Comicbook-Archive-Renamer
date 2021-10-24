@@ -16,11 +16,8 @@ import os
 import time
 import argparse
 
-extOG = ('.rar','.zip','.7z','.ace','.tar')
-extNU = ('.cbr','.cbz','.cb7','.cba','.cbt')
-# extNU = ('.rar','.zip','.7z','.ace','.tar')
-# extOG = ('.cbr','.cbz','.cb7','.cba','.cbt')
-
+extOG = ()
+extNU = ()
 
 def addSubFolders(path):
     '''Adds a given folder's subfolders' compressed files to a list and return it
@@ -70,13 +67,16 @@ def rename(file):
     os.rename(file, base + ext)
 
 def main():
+    global extOG
+    global extNU
+
     parser = argparse.ArgumentParser(description=__doc__)
     
     parser.add_argument('-sf',action='store_true',help="When this flag is present, will also explore and"+
     " change files in subfolders")
     parser.add_argument('--log',action='store_true',help="When this flag is present, will create a log file")
     parser.add_argument('--loc','-l',nargs='*',help="Location of initial folder")
-    parser.add_argument('--rev','-r',nargs='*',action='store_true',help="Reverse compression")
+    parser.add_argument('--rev','-r',action='store_true',help="Reverse compression")
     args = parser.parse_args()
 
     path = args.loc
@@ -87,8 +87,11 @@ def main():
     sf = args.sf
 
     if (args.rev):
-        extNU = ('.rar','.zip','.7z','.ace','.tar')
-        extOG = ('.cbr','.cbz','.cb7','.cba','.cbt')
+        extOG = ('.cbr','.cbz','.cb7','.cba','.cbt')        
+        extNU = ('.rar','.zip','.7z','.ace','.tar')        
+    else:
+        extOG = ('.rar','.zip','.7z','.ace','.tar')
+        extNU = ('.cbr','.cbz','.cb7','.cba','.cbt')
 
     tic = time.time()    
     files = (addFiles(path))
