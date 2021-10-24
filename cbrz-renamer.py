@@ -76,6 +76,7 @@ def main():
     " change files in subfolders")
     parser.add_argument('--log',action='store_true',help="When this flag is present, will create a log file")
     parser.add_argument('--loc','-l',nargs='*',help="Location of initial folder")
+    parser.add_argument('--rev','-r',nargs='*',action='store_true',help="Reverse compression")
     args = parser.parse_args()
 
     path = args.loc
@@ -84,6 +85,10 @@ def main():
     elif path == None:
         path = os.getcwd()
     sf = args.sf
+
+    if (args.rev):
+        extNU = ('.rar','.zip','.7z','.ace','.tar')
+        extOG = ('.cbr','.cbz','.cb7','.cba','.cbt')
 
     tic = time.time()    
     files = (addFiles(path))
@@ -104,7 +109,7 @@ def main():
     
     if args.log:
         import datetime
-        with open(f'log cbrz {datetime.datetime.now().strftime("%d.%m.%Y %H.%M.%S")}.txt','w') as f:
+        with open(f'log cbrz {datetime.datetime.now().strftime("%d.%m.%Y %H.%M.%S")}.txt','w',encoding="utf-8") as f:
             l = 0
             if isinstance(files,list):
                 l = len(files)
